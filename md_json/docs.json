@@ -31,6 +31,20 @@
       "filename": "demo3.md",
       "link": "\\zh-cn\\docs\\dir\\demo3.html",
       "meta": {}
+    },
+    {
+      "filename": "新版etl功能简介.md",
+      "link": "\\zh-cn\\docs\\新版etl功能简介.html",
+      "meta": {}
+    },
+    {
+      "filename": "未命名.md",
+      "link": "\\zh-cn\\docs\\未命名.html",
+      "meta": {
+        "title": "title",
+        "keywords": "keywords1,keywords2,keywords3",
+        "description": "some description"
+      }
     }
   ]
 }

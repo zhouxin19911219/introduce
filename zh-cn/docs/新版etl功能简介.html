@@ -1,0 +1,2662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="keywords" content="新版etl功能简介" />
+	<meta name="description" content="新版etl功能简介" />
+	<!-- 网页标签标题 -->
+	<title>新版etl功能简介</title>
+	<link rel="shortcut icon" href="/img/docsite.ico"/>
+	<link rel="stylesheet" href="/build/documentation.css" />
+</head>
+<body>
+	<div id="root"><div class="documentation-page" data-reactroot=""><header class="header-container header-container-normal"><div class="header-body"><a href="/zh-cn/index.html"><img class="logo" src="/img/dubbo_colorful.png"/></a><div class="search search-normal"><span class="icon-search"></span></div><span class="language-switch language-switch-normal">En</span><div class="header-menu"><img class="header-menu-toggle" src="/img/system/menu_gray.png"/><ul><li class="menu-item menu-item-normal"><a href="/zh-cn/index.html" target="_self">首页</a></li><li class="menu-item menu-item-normal menu-item-normal-active"><a href="/zh-cn/docs/demo1.html" target="_self">文档</a></li><li class="menu-item menu-item-normal"><a href="/zh-cn/blog/index.html" target="_self">博客</a></li><li class="menu-item menu-item-normal"><a href="/zh-cn/community/index.html" target="_self">社区</a></li></ul></div></div></header><div class="bar"><div class="bar-body"><img src="/img/system/docs.png" class="front-img"/><span>文档</span><img src="/img/system/docs.png" class="back-img"/></div></div><section class="content-section"><div class="sidemenu"><div class="sidemenu-toggle"><img src="https://img.alicdn.com/tfs/TB1E6apXHGYBuNjy0FoXXciBFXa-200-200.png"/></div><ul><li class="menu-item menu-item-level-1"><span>大标题</span><ul><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/新版etl功能简介.html" target="_self">示例1</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/demo2.html" target="_self">示例2</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/未命名.html" target="_self">示例未命名</a></li><li style="height:36px;overflow:hidden" class="menu-item menu-item-level-2"><a href="/zh-cn/docs/img/自助报表.html" target="_self">示例3</a></li><li style="height:72px;overflow:hidden" class="menu-item menu-item-level-2"><span>目录<img style="transform:rotate(0deg)" class="menu-toggle" src="/img/system/arrow_down.png"/></span><ul><li class="menu-item menu-item-level-3"><a href="/zh-cn/docs/dir/demo3.html" target="_self">示例3</a></li></ul></li></ul></li></ul></div><div class="doc-content markdown-body"><h1>Quartz</h1>
+<h3>灵魂</h3>
+<pre><code class="language-wiki">当web-server启动时,会查询etl_task_def表flag=1的数据根据cron加入到quartz中
+
+etl_task_def表flag=1表示的是周期性上一次在执行的job
+</code></pre>
+<h1>组件</h1>
+<h2>组件介绍</h2>
+<p>目前支持的组件有以下几种，后续会继续增加</p>
+<h3>Datax</h3>
+<h4>操作步骤</h4>
+<pre><code class="language-wiki">1.填写参数A
+2.填写参数B
+3.保存
+</code></pre>
+<h4>处理逻辑</h4>
+<pre><code class="language-wiki">1. 本地生成json文件
+2. 上传json到远程主机
+3. nohup pyhon  json&gt;log
+4. check log 成功
+</code></pre>
+<h4>关键参数比对</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">原始json串</td>
+<td style="text-align:center">DATAX_JSON</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">DATAX_CHANNEL</td>
+</tr>
+<tr>
+<td style="text-align:center">本地生成json文件</td>
+<td style="text-align:center">DATAX_FILE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">上传json到远程主机</td>
+<td style="text-align:center">DATAX_FILE_REMOTE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">DATAX_HOST</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">DATAX_PORT</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">DATAX_USERNAME</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">DATAX_PASSWORD</td>
+</tr>
+<tr>
+<td style="text-align:center">nohup python &quot;datax&quot;   json&gt;log</td>
+<td style="text-align:center">DATAX_PYTHON_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">tail -n 20</td>
+<td style="text-align:center">ASYN_LOG_PATH</td>
+</tr>
+</tbody>
+</table>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbvoz0mcncj31620u0n1d.jpg" alt="image-20200214095237283" style="zoom:50%;" />
+<h4>矩阵</h4>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>数据源</th>
+<th>Reader(读)</th>
+<th>Writer(写)</th>
+<th>文档</th>
+<th>本系统支持</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RDBMS 关系型数据库</td>
+<td>MySQL</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/mysqlreader/doc/mysqlreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/mysqlwriter/doc/mysqlwriter.md">写</a></td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>Oracle</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/oraclereader/doc/oraclereader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/oraclewriter/doc/oraclewriter.md">写</a></td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>SQLServer</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/sqlserverreader/doc/sqlserverreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/sqlserverwriter/doc/sqlserverwriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>PostgreSQL</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/postgresqlreader/doc/postgresqlreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/postgresqlwriter/doc/postgresqlwriter.md">写</a></td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>DRDS</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/drdsreader/doc/drdsreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/drdswriter/doc/drdswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>通用RDBMS(支持所有关系型数据库)</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/rdbmsreader/doc/rdbmsreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/rdbmswriter/doc/rdbmswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td>阿里云数仓数据存储</td>
+<td>ODPS</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/odpsreader/doc/odpsreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/odpswriter/doc/odpswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>ADS</td>
+<td></td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/adswriter/doc/adswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>OSS</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/ossreader/doc/ossreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/osswriter/doc/osswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>OCS</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/ocsreader/doc/ocsreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/ocswriter/doc/ocswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td>NoSQL数据存储</td>
+<td>OTS</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/otsreader/doc/otsreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/otswriter/doc/otswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Hbase0.94</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/hbase094xreader/doc/hbase094xreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/hbase094xwriter/doc/hbase094xwriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Hbase1.1</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/hbase11xreader/doc/hbase11xreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/hbase11xwriter/doc/hbase11xwriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Phoenix4.x</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/hbase11xsqlreader/doc/hbase11xsqlreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/hbase11xsqlwriter/doc/hbase11xsqlwriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Phoenix5.x</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/hbase20xsqlreader/doc/hbase20xsqlreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/hbase20xsqlwriter/doc/hbase20xsqlwriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>MongoDB</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/mongoreader/doc/mongoreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/mongowriter/doc/mongowriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Hive</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/hdfsreader/doc/hdfsreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/hdfswriter/doc/hdfswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Cassandra</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/cassandrareader/doc/cassandrareader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/cassandrawriter/doc/cassandrawriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td>无结构化数据存储</td>
+<td>TxtFile</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/txtfilereader/doc/txtfilereader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/txtfilewriter/doc/txtfilewriter.md">写</a></td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>FTP</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/ftpreader/doc/ftpreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/ftpwriter/doc/ftpwriter.md">写</a></td>
+<td>支持</td>
+</tr>
+<tr>
+<td></td>
+<td>HDFS</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/hdfsreader/doc/hdfsreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/hdfswriter/doc/hdfswriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>Elasticsearch</td>
+<td></td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/elasticsearchwriter/doc/elasticsearchwriter.md">写</a></td>
+<td></td>
+</tr>
+<tr>
+<td>时间序列数据库</td>
+<td>OpenTSDB</td>
+<td>√</td>
+<td></td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/opentsdbreader/doc/opentsdbreader.md">读</a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>TSDB</td>
+<td>√</td>
+<td>√</td>
+<td><a href="https://github.com/alibaba/DataX/blob/master/tsdbreader/doc/tsdbreader.md">读</a> 、<a href="https://github.com/alibaba/DataX/blob/master/tsdbwriter/doc/tsdbhttpwriter.md">写</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>数据库表</h4>
+<ul>
+<li>etl_datax_config</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CONFIG_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">PLUGIN_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">CONFIG_NAME</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">CONFIG_JSON</td>
+<td style="text-align:left">varchar(5000)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>datax 插件模板</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 13:45:59
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for etl_datax_config</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`etl_datax_config`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`etl_datax_config`</span> (
+  <span class="hljs-string">`CONFIG_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`PLUGIN_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`CONFIG_NAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`CONFIG_JSON`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">5000</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'datax 插件模板'</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`CONFIG_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000006</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'datax插件模板'</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Records of etl_datax_config</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">BEGIN</span>;
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-number">1006</span>, <span class="hljs-string">'FTP-READER'</span>, <span class="hljs-string">'{\"name\": \"ftp2reader\", \"parameter\": {\"protocol\": \"${reader_protocol}\", \"host\": \"${reader_host}\", \"port\": \"${reader_port}\", \"username\": \"${reader_username}\", \"password\": \"${reader_password}\",\"isdel\": \"${reader_isdel}\", \"path\": [\"${reader_path}\"], \"column\":${reader_column}, \"encoding\": \"${reader_encoding}\",\"compress\":${reader_compress},\"skipHeader\":\"${reader_skipHeader}\", \"fieldDelimiter\": \"${reader_fieldDelimiter}\"} }'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>, <span class="hljs-number">1007</span>, <span class="hljs-string">'MYSQL-READER'</span>, <span class="hljs-string">'{\"name\": \"mysqlreader\", \"parameter\": {\"username\": \"${reader_username}\", \"password\": \"${reader_password}\",\"splitPk\": \"${reader_splitPk}\", \"connection\": [{\"querySql\": [\"${reader_querySql}\"], \"jdbcUrl\": [\"${reader_jdbcUrl}\"] } ] } }'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">3</span>, <span class="hljs-number">1008</span>, <span class="hljs-string">'GP-READER'</span>, <span class="hljs-string">'{\"name\": \"postgresqlreader\", \"parameter\": {\"username\": \"${reader_username}\", \"password\": \"${reader_password}\",\"splitPk\": \"${reader_splitPk}\", \"connection\": [{\"querySql\": [\"${reader_querySql}\"], \"jdbcUrl\": [\"${reader_jdbcUrl}\"] } ] } }'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">4</span>, <span class="hljs-number">1009</span>, <span class="hljs-string">'FTP-WRITER'</span>, <span class="hljs-string">'{\"name\": \"ftpwriter\", \"parameter\": {\"protocol\": \"${writer_protocol}\", \"host\": \"${writer_host}\", \"port\": \"${writer_port}\", \"username\": \"${writer_username}\", \"password\": \"${writer_password}\", \"timeout\": \"60000\", \"connectPattern\": \"PASV\", \"path\": \"${writer_path}\", \"fileName\": \"${writer_fileName}\", \"writeMode\": \"append\", \"fieldDelimiter\": \"${writer_fieldDelimiter}\", \"encoding\": \"${writer_encoding}\", \"nullFormat\": \"null\", \"dateFormat\": \"yyyy-MM-dd\", \"fileFormat\": \"csv\", \"header\": [] } }'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">5</span>, <span class="hljs-number">1010</span>, <span class="hljs-string">'MYSQL-WRITER'</span>, <span class="hljs-string">'{    \"name\": \"mysqlwriter\",    \"parameter\": {        \"writeMode\": \"insert\",\"batchsize\": \"2048\",\"username\": \"${writer_username}\",        \"password\": \"${writer_password}\",        \"column\": ${writer_column},        \"session\": [            \"set session sql_mode=\'</span>ANSI\<span class="hljs-string">'\"        ],        \"preSql\": [            \"${writer_preSql}\"] ,        \"postSql\": [            \"${writer_postSql}\"       ],        \"connection\": [            {                \"jdbcUrl\": \"${writer_jdbcUrl}\",                \"table\": [                    \"${writer_table}\"                ]            }        ]    }}'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">6</span>, <span class="hljs-number">1011</span>, <span class="hljs-string">'GP-WRITER'</span>, <span class="hljs-string">'{    \"name\": \"postgresqlwriter\",    \"parameter\": {        \"username\": \"${writer_username}\",        \"password\": \"${writer_password}\",    \"batchsize\": \"2048\",    \"column\": ${writer_column},        \"connection\": [            {                \"table\": [                    \"${writer_table}\"                ],                \"jdbcUrl\":                     \"${writer_jdbcUrl}\"                            }        ]    }}'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000003</span>, <span class="hljs-number">1012</span>, <span class="hljs-string">'TXT-READER'</span>, <span class="hljs-string">' {\r\n                    \"name\": \"txtfilereader\",\r\n                    \"parameter\": {\r\n                        \"path\": [\"${reader_path}\"],\r\n                        \"encoding\": \"${reader_encoding}\",\r\n												\"skipHeader\": \"${reader_skipHeader}\",\r\n												\"compress\": ${reader_compress},\r\n                        \"column\": ${reader_column},\r\n                        \"fieldDelimiter\": \"${reader_fieldDelimiter}\"\r\n                    }\r\n                }'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000004</span>, <span class="hljs-number">1013</span>, <span class="hljs-string">'TXT-WRITER'</span>, <span class="hljs-string">' {\r\n                    \"name\": \"txtfile2writer\",\r\n                    \"parameter\": {\r\n                        \"path\": \"${writer_path}\",\r\n                        \"fileName\": \"${writer_fileName}\",\r\n                        \"writeMode\": \"truncate\",\r\n												\"fieldDelimiter\": \"${writer_fieldDelimiter}\",\r\n												\"compress\": ${writer_compress},\r\n												\"encoding\": \"${writer_encoding}\",\r\n												\"fileFormat\": \"${writer_fileFormat}\",														\r\n                        \"dateFormat\": \"yyyy-MM-dd\"\r\n                    }\r\n                }'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_datax_config`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000005</span>, <span class="hljs-number">1016</span>, <span class="hljs-string">'ORACLE-READER'</span>, <span class="hljs-string">'{\"name\": \"oraclereader\", \"parameter\": {\"username\": \"${reader_username}\", \"password\": \"${reader_password}\",\"schema\":\"summer\",\"splitPk\": \"${reader_splitPk}\", \"connection\": [{\"querySql\": [\"${reader_querySql}\"], \"jdbcUrl\": [\"${reader_jdbcUrl}\"] } ] } }'</span>);
+<span class="hljs-keyword">COMMIT</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+
+
+</code></pre>
+<h3>初始化数据</h3>
+<pre><code class="language-SQL"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">7</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_CHANNEL'</span>, <span class="hljs-string">'10'</span>, <span class="hljs-string">'datax数据线程数'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">31</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_FILE_PATH'</span>, <span class="hljs-string">'/home/datax/'</span>, <span class="hljs-string">'DATAX生成json文件本地路径'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">32</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_FILE_REMOTE_PATH'</span>, <span class="hljs-string">'/home/gpadmin/datax/json/'</span>, <span class="hljs-string">'（改）DATAX生成json文件远程主机路径'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">14</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_HOST'</span>, <span class="hljs-string">'192.168.100.51'</span>, <span class="hljs-string">'（改）DATAX PYTHON执行文件的主机IP'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_JSON'</span>, <span class="hljs-string">'{\"job\": {\"setting\": {\"speed\": {\"channel\": \"${channel}\" } }, \"content\": [{\"reader\": \"${reader}\", \"writer\": \"${writer}\" } ] } }'</span>, <span class="hljs-string">'datax json模板'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">13</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_PASSWORD'</span>, <span class="hljs-string">'ZicaiGp@1'</span>, <span class="hljs-string">'（改）DATAX PYTHON执行文件主机用户名的密码'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">11</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_PORT'</span>, <span class="hljs-string">'22'</span>, <span class="hljs-string">'DATAX PYTHON执行文件'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">8</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_PYTHON_PATH'</span>, <span class="hljs-string">'/home/gpadmin/datax/bin/datax.py'</span>, <span class="hljs-string">'（改）DATAX PYTHON的datax.py执行文件的路径'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">12</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'DATAX_USERNAME'</span>, <span class="hljs-string">'gpadmin'</span>, <span class="hljs-string">'（改）DATAX PYTHON执行文件的主机名'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+
+</code></pre>
+<h3>注意事项</h3>
+<p>从<strong>etl_data_source</strong>表加载的配置一定要确保协议能够匹配上</p>
+<p>从<strong>etl_data_source</strong>表加载的配置一定要确保协议能够匹配上</p>
+<p>从<strong>etl_data_source</strong>表加载的配置一定要确保协议能够匹配上</p>
+<h4>错误案例</h4>
+<p>​        配置ftp到txt的数据迁移,21端口匹配的是ftp协议，22端口匹配的是sftp协议</p>
+<h3>gpload</h3>
+<h4>操作步骤</h4>
+<pre><code class="language-wiki">1.选择要去执行gpload的主机
+2.填写脚本参数
+3.保存
+</code></pre>
+<h4>处理逻辑</h4>
+<pre><code class="language-wiki">1. 本地生成yml文件
+2. 上传yml到远程主机
+3. nohup gpload -f yml&gt;log
+4. check log 成功
+</code></pre>
+<h4>关键参数比对</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">本地生成yml文件</td>
+<td style="text-align:center">GPLOAD_FILE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">上传yml到远程主机</td>
+<td style="text-align:center">GPLOAD_FILE_REMOTE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">GPLOAD_FILE_HOST</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">GPLOAD_FILE_PASSWORD</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">GPLOAD_FILE_PORT</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">GPLOAD_FILE_USERNAME</td>
+</tr>
+<tr>
+<td style="text-align:center">nohup gpload -f yml&gt;log</td>
+<td style="text-align:center">ASYN_LOG_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">tail -n 20</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gburbcqcsvj316q0u0n19.jpg" alt="image-20200213142811865" style="zoom:50%;" />
+<h3>注意事项</h3>
+<p>因为gpload是对gpfdist的封装，因此使用gpload之前必须开启gpfdist的服务，不然无法使用。</p>
+<pre><code>gpfdist -d /home/admin -p 8181 -l /tmp/gpfdist.log &amp;
+</code></pre>
+<h4>官方文档</h4>
+<p><a href="http://gpdb.docs.pivotal.io/530/utility_guide/admin_utilities/gpload.html">http://gpdb.docs.pivotal.io/530/utility_guide/admin_utilities/gpload.html</a></p>
+<p><a href="https://www.cnblogs.com/daojiao/p/4595597.html">https://www.cnblogs.com/daojiao/p/4595597.html</a></p>
+<p>配置属性在官方文档存在</p>
+<h4>环境变量</h4>
+<pre><code class="language-shell"><span class="hljs-meta">#</span><span class="bash"> .bashrc</span>
+<span class="hljs-meta">
+#</span><span class="bash"> Source global definitions</span>
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+<span class="hljs-meta">
+#</span><span class="bash"> User specific aliases and <span class="hljs-built_in">functions</span></span>
+source  /usr/local/greenplum-db/greenplum_path.sh
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-built_in">export</span> ORACLE_HOME=/usr/<span class="hljs-built_in">local</span>/oracle/instantclient_11_2</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-built_in">export</span> TNS_ADMIN=<span class="hljs-variable">$ORACLE_HOME</span>/network/admin</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-built_in">export</span> NLS_LANG=AMERICAN_AMERICA.ZHS16GBK</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-built_in">export</span> NLS_LANG=AMERICAN_AMERICA.AL32UTF8</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-built_in">export</span> LD_LIBRARY_PATH=<span class="hljs-variable">$ORACLE_HOME</span></span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">$ORACLE_HOME</span>:<span class="hljs-variable">$PATH</span></span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-built_in">export</span> ORACLE_SID=<span class="hljs-built_in">export</span></span>
+</code></pre>
+<pre><code class="language-shell">source ~/.bashrc 
+</code></pre>
+<h4>初始化数据</h4>
+<pre><code class="language-sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">21</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'GPLOAD_FILE_HOST'</span>, <span class="hljs-string">'192.168.100.51'</span>, <span class="hljs-string">'（改）gpload文件主机的IP'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">20</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'GPLOAD_FILE_PASSWORD'</span>, <span class="hljs-string">'ZicaiGp@1'</span>, <span class="hljs-string">'（改）GPLOAD文件主机用户名的密码'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">22</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'GPLOAD_FILE_PATH'</span>, <span class="hljs-string">'/home/yml/'</span>, <span class="hljs-string">'GPLOAD的生成文件的本地路径'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">18</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'GPLOAD_FILE_PORT'</span>, <span class="hljs-string">'22'</span>, <span class="hljs-string">'GPLOAD文件端口'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">23</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'GPLOAD_FILE_REMOTE_PATH'</span>, <span class="hljs-string">'/home/gpadmin/yml/'</span>, <span class="hljs-string">'（改）GPLOAD文件远程存放路径，要放置YML文件的路径'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">19</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'GPLOAD_FILE_USERNAME'</span>, <span class="hljs-string">'gpadmin'</span>, <span class="hljs-string">'（改）GPLOAD文件用户名的密码'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+
+</code></pre>
+<h3>shell</h3>
+<h4>操作步骤</h4>
+<pre><code class="language-tex">1.选择要去执行该条shell的主机
+
+2.填写脚本内容
+
+3.填写脚本参数
+
+4.保存
+</code></pre>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbuqt7k0ckj31d80tan0m.jpg" alt="image-20200213141038392" style="zoom:50%;" />
+<h4>处理逻辑</h4>
+<pre><code class="language-wiki">1. 本地生成sh/python文件
+2. 上传文件到远程主机
+3. nohup sh/python file &gt;log
+4. check log 成功
+</code></pre>
+<h4>关键参数比对</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">本地生成yml文件</td>
+<td style="text-align:center">SHELL_FILE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">上传文件到远程主机</td>
+<td style="text-align:center">SHELL_FILE_REMOTE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">nohup sh/python   file&gt;log</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">tail -n 20</td>
+<td style="text-align:center">ASYN_LOG_PATH</td>
+</tr>
+</tbody>
+</table>
+<h4>注意事项</h4>
+<p>要拼接成功失败返回值，自己判断异常等</p>
+<h4>错误案例</h4>
+<pre><code class="language-tiki">不按照shell标准格式填写
+不按照python标准格式填写
+</code></pre>
+<h3>sql</h3>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbur4t7ixdj31a60qwwhe.jpg" alt="image-20200213142141064" style="zoom:50%;" />
+<h4>操作步骤</h4>
+<pre><code class="language-wiki">1.选择要去执行该条sql的数据库
+2.填写sql内容(变量直接在sql内)
+3.保存
+</code></pre>
+<h4>注意事项</h4>
+<h5>SQL语句分类</h5>
+<ol>
+<li>DDL(Data Definition Language): 数据定义语言
+<ul>
+<li>用来定义数据库对象:数据库，表,列等。 关键字：create,drop, alter等。</li>
+</ul>
+</li>
+<li>DML(Data Manipulation Language): 数据操作语言
+<ul>
+<li>用来对数据库中的表进行增删改操作。 关键字：insert,delete,update等。</li>
+</ul>
+</li>
+<li><s>DQL(Data Query Language): 数据查询语言</s>
+<ul>
+<li>用来查询数据库中表的记录(数据)。 关键字:select, where等</li>
+</ul>
+</li>
+<li>DCL(Data Control Language): 数据控制语言
+<ul>
+<li>用来定义数据库的访问控制权限和安全级别，及创建用户。关键字: grant, revoke等</li>
+</ul>
+</li>
+</ol>
+<h4>错误案例</h4>
+<pre><code class="language-wiki">没有按照标准格式填写sql
+</code></pre>
+<h3>补数</h3>
+<h4>操作步骤</h4>
+<pre><code class="language-wiki">1.有补数选项
+2.选择时间区间或者一天
+3.保存
+</code></pre>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbvoom1qtqj30re0n40uz.jpg" alt="image-20200214094238452" style="zoom:50%;" />
+<h4>注意事项</h4>
+<p>补数任务只能执行一次,不能是周期任务</p>
+<h3>存储过程</h3>
+<h4>操作步骤</h4>
+<pre><code class="language-wiki">1.选择要去执行该存储过程的主机
+2.填写存储过程名称
+3.填写参数
+4.保存
+</code></pre>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbus0btmzkj31b60p2gp2.jpg" alt="image-20200213145208545" style="zoom:50%;" />
+<p>处理逻辑</p>
+<pre><code class="language-wiki">1. 本地生成存储过程文件
+2. 上传文件到远程主机
+3. 执行存储过程(不同数据库不同样式)
+4. check log 成功
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">本地生成文件</td>
+<td style="text-align:center">FUNC_FILE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">上传文件到远程主机</td>
+<td style="text-align:center">FUNC_FILE_HOST</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">FUNC_FILE_PORT</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">FUNC_FILE_USERNAME</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">FUNC_FILE_PASSWORD</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">FUNC_FILE_REMOTE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">执行存储过程nohup psql/nohup echo 'quit'</td>
+<td style="text-align:center">sqlplus</td>
+</tr>
+<tr>
+<td style="text-align:center">check log 成功</td>
+<td style="text-align:center">ASYN_LOG_PATH</td>
+</tr>
+</tbody>
+</table>
+<h4>环境变量</h4>
+<pre><code class="language-shell"><span class="hljs-meta">#</span><span class="bash"> .bashrc</span>
+<span class="hljs-meta">
+#</span><span class="bash"> Source global definitions</span>
+if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+fi
+<span class="hljs-meta">
+#</span><span class="bash"> User specific aliases and <span class="hljs-built_in">functions</span></span>
+这里需要填写一下
+</code></pre>
+<pre><code class="language-shell">source ~/.bashrc 
+</code></pre>
+<h4>初始化数据</h4>
+<pre><code class="language-sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">30</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'FUNC_FILE_PATH'</span>, <span class="hljs-string">'/home/devapp/func/'</span>, <span class="hljs-string">'存储过程生产路径（配ETL主机路径）'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">80</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'FUNC_FILE_REMOTE_PATH'</span>, <span class="hljs-string">'/data/'</span>, <span class="hljs-string">'（改）存储过程远程路径（配GP主机路径）'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">400</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'FUNC_FILE_HOST'</span>, <span class="hljs-string">'192.168.100.51'</span>, <span class="hljs-string">'func执行的主机'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">401</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'FUNC_FILE_PORT'</span>, <span class="hljs-string">'22'</span>, <span class="hljs-string">'func执行的主机的端口号'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">402</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'FUNC_FILE_USERNAME'</span>, <span class="hljs-string">'gpadmin'</span>, <span class="hljs-string">'用户名1'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">403</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'FUNC_FILE_PASSWORD'</span>, <span class="hljs-string">'ZicaiGp@1'</span>, <span class="hljs-string">'密码'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+</code></pre>
+<h3>子任务</h3>
+<h4>操作步骤</h4>
+<pre><code class="language-wiki">1.选择作为子任务的模板
+2.保存
+</code></pre>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbutlikm74j31do0m2q63.jpg" alt="image-20200213154703743" style="zoom:50%;" />
+<pre><code class="language-java">是不是有接口，诗语填写一下
+</code></pre>
+<h3>节点检查</h3>
+<h4>输入sql作为检查点</h4>
+<h4>操作步骤</h4>
+<pre><code class="language-wiki">1.选择人工或者自动
+2.选择数据库数据源
+3.填写sql语句能返回结果的
+4.期望结果及关系
+5.设置检查时间
+6.保存
+</code></pre>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbuu6h07gyj315r0u078t.jpg" alt="image-20200213160716483" style="zoom:50%;" />
+<h4>注意事项</h4>
+<p>如果超过检查时间，就说明程序返回值和期望值不一致,需要人工参与</p>
+<h3>文件检查</h3>
+<p>未来会同shell合并</p>
+<h4>操作步骤</h4>
+<pre><code class="language-tex">1.选择要去执行该条shell的主机
+
+2.填写脚本内容
+
+3.填写脚本参数
+
+4.保存
+</code></pre>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbvq0umc9jj317a0u0ae5.jpg" alt="image-20200214102901067" style="zoom:50%;" />
+<h4>处理逻辑</h4>
+<pre><code class="language-wiki">1. 远程执行固定脚本
+2. 执行结果入log
+3. check log 成功
+</code></pre>
+<h4>关键参数比对</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">本地生成yml文件</td>
+<td style="text-align:center">CHECK_FILE_PATH</td>
+</tr>
+<tr>
+<td style="text-align:center">检查的频率</td>
+<td style="text-align:center">CHECK_FILE_SLEEP_TIME</td>
+</tr>
+<tr>
+<td style="text-align:center">远程执行的参数</td>
+<td style="text-align:center">CHECK_FILE_HOST</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">CHECK_FILE_PORT</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">CHECK_FILE_USERNAME</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">CHECK_FILE_PASSWORD</td>
+</tr>
+<tr>
+<td style="text-align:center">tail -n 20</td>
+<td style="text-align:center">ASYN_LOG_PATH</td>
+</tr>
+</tbody>
+</table>
+<h4>初始化数据</h4>
+<pre><code class="language-sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">28</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'CHECK_FILE_HOST'</span>, <span class="hljs-string">'192.168.100.51'</span>, <span class="hljs-string">'（改）文件校验的python存放主机IP'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">25</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'CHECK_FILE_PASSWORD'</span>, <span class="hljs-string">'ZicaiGp@1'</span>, <span class="hljs-string">'（改）文件校验的python存放密码'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">24</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'CHECK_FILE_PATH'</span>, <span class="hljs-string">'/home/gpadmin/filecheck/file_check_hb.py'</span>, <span class="hljs-string">'（改）文件校验的pythonpy文件存放路径，各省的Python文件名不一样'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'2019-05-30 09:51:26'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">26</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'CHECK_FILE_PORT'</span>, <span class="hljs-string">'22'</span>, <span class="hljs-string">'文件校验的python存放端口号'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">27</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'CHECK_FILE_SLEEP_TIME'</span>, <span class="hljs-string">'3'</span>, <span class="hljs-string">'文件校验时间设置'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'2019-04-10 10:44:10'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`config_property`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">29</span>, <span class="hljs-string">'DP'</span>, <span class="hljs-string">'CHECK_FILE_USERNAME'</span>, <span class="hljs-string">'gpadmin'</span>, <span class="hljs-string">'（改）文件校验的python存放主机用户名'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+
+</code></pre>
+<h4>注意事项</h4>
+<p>建议不要选择远程，用户名和密码是远程脚本主机所在</p>
+<h1>模板</h1>
+<h2>常用操作</h2>
+<h3>创建</h3>
+<p>参见组件介绍</p>
+<h3>查询</h3>
+<p>根据条件查询模板信息，比如谁创建的，在什么时间创建的，目前有哪些启动状态</p>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskDefSV</span> </span>{
+    <span class="hljs-comment">/**
+     * 分页按照条件查询数据 按照配置时间和配置人员
+     * 
+     * <span class="hljs-doctag">@param</span> request
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/queryTaskDefByCondition"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> PageInfoResponse&lt;EtlTaskDefVo&gt; <span class="hljs-title">queryTaskDefByCondition</span><span class="hljs-params">(String json)</span></span>;
+    }
+</code></pre>
+<h3>修改</h3>
+<p>修改执行周期</p>
+<pre><code class="language-java"> <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QuartzScheduler</span> </span>{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">modifyJob</span><span class="hljs-params">(String name, String group, String time)</span> <span class="hljs-keyword">throws</span> SchedulerException</span>{}
+ }
+</code></pre>
+<p>修改模板内容</p>
+<pre><code class="language-java"> <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskDefSV</span> </span>{
+ <span class="hljs-comment">/**
+     * 这个方法用来实现 修改(删除) 保存
+     * 
+     * <span class="hljs-doctag">@param</span> vo
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/saveTaskDef"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResponse <span class="hljs-title">saveTaskDef</span><span class="hljs-params">(EtlTaskDefVo vo)</span></span>;
+    }
+</code></pre>
+<h3>删除</h3>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskDefSV</span> </span>{
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/deleteTaskDef"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResponse <span class="hljs-title">deleteTaskDef</span><span class="hljs-params">(Long taskId)</span></span>;
+  }
+</code></pre>
+<h3>复制</h3>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskDefSV</span> </span>{
+     <span class="hljs-comment">/**
+     * 复制
+     * 
+     * <span class="hljs-doctag">@param</span> taskId
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/copyTaskDef"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResponse <span class="hljs-title">copyTaskDef</span><span class="hljs-params">(String json)</span></span>;
+    }
+</code></pre>
+<h3>启动</h3>
+<p>把定义模板加入到任务列表中</p>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QuartzScheduler</span> </span>{
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addJobInfo</span><span class="hljs-params">(String name, String group, String time)</span> <span class="hljs-keyword">throws</span> SchedulerException</span>{}
+}
+</code></pre>
+<h3>停止</h3>
+<p>停止任务列表中的任务</p>
+<ol>
+<li>一次性任务自动停止</li>
+<li>周期性任务手工停止</li>
+</ol>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QuartzScheduler</span> </span>{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteJob</span><span class="hljs-params">(String name, String group)</span> <span class="hljs-keyword">throws</span> SchedulerException</span>{}
+}
+</code></pre>
+<h3>系统启动job</h3>
+<p>启动所有在执行的周期job</p>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">QuartzScheduler</span> </span>{
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">startJob</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SchedulerException
+}
+</span></code></pre>
+<h3>执行一次(新增)</h3>
+<img src="https://tva1.sinaimg.cn/large/0082zybply1gbvrz1enbrj30qu05qdga.jpg" alt="image-20200214113628015" style="zoom:50%;" />
+<h2>数据库表</h2>
+<h3><strong>etl_task_def</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">TASK_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>主键</td>
+</tr>
+<tr>
+<td style="text-align:left">TASK_NAME</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建模板名称</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_USER</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建人</td>
+</tr>
+<tr>
+<td style="text-align:left">REMARK</td>
+<td style="text-align:left">varchar(1000)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>备注，清晰描述该模板是干啥的</td>
+</tr>
+<tr>
+<td style="text-align:left">UPDATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>更新时间</td>
+</tr>
+<tr>
+<td style="text-align:left">UPDATE_USER</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>更新人</td>
+</tr>
+<tr>
+<td style="text-align:left">TASK_JSON</td>
+<td style="text-align:left">text</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>前台页面保存的json串</td>
+</tr>
+<tr>
+<td style="text-align:left">JOB_STATUS</td>
+<td style="text-align:left">varchar(2)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>模板的状态，是否执行中</td>
+</tr>
+<tr>
+<td style="text-align:left">CRON</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>CRON</td>
+</tr>
+<tr>
+<td style="text-align:left">FLAG</td>
+<td style="text-align:left">char(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>cron启动之后的标记位，系统重启的时候用到</td>
+</tr>
+<tr>
+<td style="text-align:left">COMPLEMENT</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>有值就按照这个值去处理</td>
+</tr>
+<tr>
+<td style="text-align:left">COMPLEMENT_FLAG</td>
+<td style="text-align:left">char(2)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>前台用，标记位</td>
+</tr>
+<tr>
+<td style="text-align:left">ACTOMATION_FLAG</td>
+<td style="text-align:left">char(1)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>任务是否自动执行</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 10/02/2020 14:33:02
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for etl_task_def</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`etl_task_def`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`etl_task_def`</span> (
+  <span class="hljs-string">`TASK_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'主键'</span>,
+  <span class="hljs-string">`TASK_NAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建模板名称'</span>,
+  <span class="hljs-string">`CREATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建时间'</span>,
+  <span class="hljs-string">`CREATE_USER`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建人'</span>,
+  <span class="hljs-string">`REMARK`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1000</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'备注，清晰描述该模板是干啥的'</span>,
+  <span class="hljs-string">`UPDATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'更新时间'</span>,
+  <span class="hljs-string">`UPDATE_USER`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'更新人'</span>,
+  <span class="hljs-string">`TASK_JSON`</span> <span class="hljs-built_in">text</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'前台页面保存的json串'</span>,
+  <span class="hljs-string">`JOB_STATUS`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">2</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'模板的状态，是否执行中'</span>,
+  <span class="hljs-string">`CRON`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'周期表达式'</span>,
+  <span class="hljs-string">`FLAG`</span> <span class="hljs-built_in">char</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'cron启动之后的标记位，系统重启的时候用到'</span>,
+  <span class="hljs-string">`COMPLEMENT`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'如果有值就是补数任务'</span>,
+  <span class="hljs-string">`COMPLEMENT_FLAG`</span> <span class="hljs-built_in">char</span>(<span class="hljs-number">2</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`ACTOMATION_FLAG`</span> <span class="hljs-built_in">char</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建任务之后是否自动执行'</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`TASK_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000202</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'这是一张模板表'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+</code></pre>
+<h2>注意事项</h2>
+<p>修改模板,周期性任务同时生效</p>
+<h1>任务</h1>
+<h2>常用操作</h2>
+<h3>启动(cron定时触发)</h3>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskDefSV</span> </span>{    
+    <span class="hljs-comment">/**
+     * 把生成数据这个统一化
+     * 
+     * <span class="hljs-doctag">@param</span> taskId
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/generateTaskById"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResponse <span class="hljs-title">generateTaskById</span><span class="hljs-params">(String taskId)</span></span>;
+}
+</code></pre>
+<ul>
+<li>
+<h4>自动</h4>
+<p>当<strong>etl_task_def</strong>中ACTOMATION_FLAG中字段是1,自动启动任务程序</p>
+</li>
+<li>
+<h4>手动</h4>
+<p>当<strong>etl_task_def</strong>中ACTOMATION_FLAG中字段非1,需要操作员在前台手动启动程序</p>
+<p>前台可以支持多选的模式</p>
+<pre><code class="language-java">  <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskBatchDefSV</span> </span>{
+    <span class="hljs-comment">/**
+     * 批量启动(也可以单个启动)
+     * 
+     * <span class="hljs-doctag">@param</span> batchIds
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/batchStartTask"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResponse <span class="hljs-title">batchStartTask</span><span class="hljs-params">(String batchIds)</span></span>;
+  }
+</code></pre>
+</li>
+</ul>
+<h3>修改参数</h3>
+<ul>
+<li>
+<p>定时处理器读取到模板表有任务要执行的时候,会直接调用这个保存的方法</p>
+</li>
+<li>
+<p>当前台任务做参数修改的时候,会直接调用这个保存的方法</p>
+<p>参数包括：流程节点中参数的变化,基准时间的更改,备注的更改等</p>
+</li>
+</ul>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskBatchDefSV</span> </span>{
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/saveBatchDef"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">saveBatchDef</span><span class="hljs-params">(EtlTaskBatchDefVo vo)</span></span>;
+ }
+</code></pre>
+<p>分两步</p>
+<p>1.从<strong>etl_task_def</strong>表拷贝数据到<strong>etl_task_batch_def</strong>表,</p>
+<p>判断是保存还是修改，根据传递的参数EtlTaskBatchDefVo 是否有TaskBatchId</p>
+<p>2.从<strong>etl_task_batch_def</strong>表根据数据生成<strong>etl_task_detail</strong>与<strong>etl_work_def</strong></p>
+<h3>修改启动点</h3>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskDetailSV</span> </span>{
+   <span class="hljs-comment">/**
+     * 通过BatchId 查询detail状态，这个状态内部带有每一条的结果 前台界面会是一个定时更新的查询
+     * 
+     * <span class="hljs-doctag">@param</span> taskBatchId
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/updateEtlTaskDetail"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResponse <span class="hljs-title">updateEtlTaskDetail</span><span class="hljs-params">(EtlTaskDetailVo json)</span></span>;
+}
+</code></pre>
+<h3>查询</h3>
+<p>目前把查询条件封装到json里面，方便后续扩展</p>
+<p>查询条件有：时间段/状态/任务名称等</p>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskBatchDefSV</span> </span>{
+     <span class="hljs-comment">/**
+     * 这是按照条件分页查询
+     * 
+     * <span class="hljs-doctag">@param</span> json
+     * <span class="hljs-doctag">@return</span>
+     */</span>
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/showBatchDefByCondition"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> PageInfoResponse&lt;EtlTaskBatchDefVo&gt; <span class="hljs-title">showBatchDefByCondition</span><span class="hljs-params">(String json)</span></span>;
+ }
+</code></pre>
+<h3>删除</h3>
+<p>删除任务记录</p>
+<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IEtlTaskBatchDefSV</span> </span>{ 
+    <span class="hljs-meta">@POST</span>
+    <span class="hljs-meta">@Path</span>(<span class="hljs-string">"/deleteBatchDef"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BaseResponse <span class="hljs-title">deleteBatchDef</span><span class="hljs-params">(EtlTaskBatchDefVo vo)</span></span>;
+    }
+</code></pre>
+<h2>数据库表</h2>
+<h3><strong>etl_task_batch_def</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">TASK_BATCH_ID</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>批次号任务唯一标识</td>
+</tr>
+<tr>
+<td style="text-align:left">TASK_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>任务ID:来自etl_task_def</td>
+</tr>
+<tr>
+<td style="text-align:left">TASK_NAME</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>任务名称：etl_task_def+STANDARD_TIME</td>
+</tr>
+<tr>
+<td style="text-align:left">STATUS</td>
+<td style="text-align:left">char(1)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>0删除/1待执行/2已执行/3完成/4执行失败</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_USER</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建人来自etl_task_def</td>
+</tr>
+<tr>
+<td style="text-align:left">REMARK</td>
+<td style="text-align:left">varchar(1000)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>备注来自etl_task_def</td>
+</tr>
+<tr>
+<td style="text-align:left">UPDATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>更新时间</td>
+</tr>
+<tr>
+<td style="text-align:left">UPDATE_USER</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>更新人</td>
+</tr>
+<tr>
+<td style="text-align:left">START_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>开始时间</td>
+</tr>
+<tr>
+<td style="text-align:left">END_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>结束时间</td>
+</tr>
+<tr>
+<td style="text-align:left">TASK_JSON</td>
+<td style="text-align:left">text</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:left">STANDARD_TIME</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>执行基准时间</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 10/02/2020 11:07:51
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for etl_task_batch_def</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`etl_task_batch_def`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`etl_task_batch_def`</span> (
+  <span class="hljs-string">`TASK_BATCH_ID`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'批次号任务唯一标识'</span>,
+  <span class="hljs-string">`TASK_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'任务ID:来自etl_task_def'</span>,
+  <span class="hljs-string">`TASK_NAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'任务名称：etl_task_def+STANDARD_TIME'</span>,
+  <span class="hljs-string">`STATUS`</span> <span class="hljs-built_in">char</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'0删除/1待执行/2已执行/3完成/4执行失败'</span>,
+  <span class="hljs-string">`CREATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建时间'</span>,
+  <span class="hljs-string">`CREATE_USER`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建人来自etl_task_def'</span>,
+  <span class="hljs-string">`REMARK`</span> <span class="hljs-built_in">text</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'备注来自etl_task_def'</span>,
+  <span class="hljs-string">`UPDATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'更新时间'</span>,
+  <span class="hljs-string">`UPDATE_USER`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'更新人'</span>,
+  <span class="hljs-string">`START_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'开始时间'</span>,
+  <span class="hljs-string">`END_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'结束时间'</span>,
+  <span class="hljs-string">`TASK_JSON`</span> <span class="hljs-built_in">text</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'页面展示图形的json串'</span>,
+  <span class="hljs-string">`STANDARD_TIME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'执行基准时间'</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`TASK_BATCH_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'这是任务表,用来记录执行任务'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+</code></pre>
+<h2>注意事项</h2>
+<p>这张表数据的修改只会影响到本次执行的变更</p>
+<h1>参数配置(待完善)</h1>
+<h2>常用操作</h2>
+<h3>新增</h3>
+<h3>修改</h3>
+<h3>删除</h3>
+<h3>查询</h3>
+<h2>数据库表</h2>
+<h3><strong>etl_data_source</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">SOURCE_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">SOURCE_NAME</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>资源名称</td>
+</tr>
+<tr>
+<td style="text-align:left">SOURCE_TYPE</td>
+<td style="text-align:left">varchar(10)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>FTP :GP :MYSQL</td>
+</tr>
+<tr>
+<td style="text-align:left">SOURCE_USERNAME</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td style="text-align:left">SOURCE_PASSWORD</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>密码</td>
+</tr>
+<tr>
+<td style="text-align:left">PATH</td>
+<td style="text-align:left">varchar(500)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>路径</td>
+</tr>
+<tr>
+<td style="text-align:left">PORT</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">URL</td>
+<td style="text-align:left">varchar(500)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>jdbc</td>
+</tr>
+<tr>
+<td style="text-align:left">HOST</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">FTP_TYPE</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 10/02/2020 17:23:02
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for etl_data_source</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`etl_data_source`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`etl_data_source`</span> (
+  <span class="hljs-string">`SOURCE_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`SOURCE_NAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'资源名称'</span>,
+  <span class="hljs-string">`SOURCE_TYPE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'FTP :GP :MYSQL'</span>,
+  <span class="hljs-string">`SOURCE_USERNAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'用户名'</span>,
+  <span class="hljs-string">`SOURCE_PASSWORD`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'密码'</span>,
+  <span class="hljs-string">`PATH`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">500</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'路径'</span>,
+  <span class="hljs-string">`PORT`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`URL`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">500</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'jdbc'</span>,
+  <span class="hljs-string">`HOST`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`FTP_TYPE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`SOURCE_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000024</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'这里面配置参数'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+</code></pre>
+<h2>注意事项</h2>
+<h3>处理逻辑</h3>
+<p>创建任务---&gt;周期处理任务---&gt;生成数据----&gt;执行----&gt;如果有查询状态就查询状态，如果没有就拉倒</p>
+<h1>业务图</h1>
+<h3>流程图</h3>
+<pre><code class="language-flow">st=&gt;start: 开始
+op=&gt;operation: 模板表etl_task_def
+op1=&gt;operation: 任务表etl_task_batch_def
+op2=&gt;operation: 任务明细表etl_task_detail
+op3=&gt;operation: 任务执行工作表etl_work_def
+e=&gt;end: 结束框
+st-&gt;op-&gt;op1-&gt;op2-&gt;op3-&gt;e
+</code></pre>
+<h3>时序图</h3>
+<pre><code class="language-sequence">Title: 任务线
+定时-&gt;表etl_task_def: 根据cron获取待执行任务（请求）
+表etl_task_def--&gt;定时: 返回taskID(响应)
+定时-&gt;表etl_task_batch_def: 根据taskID创建任务（请求）
+Note right of 表etl_task_batch_def: 任务表
+Note left of 定时: 定时器
+
+表etl_task_batch_def-&gt;表etl_task_detail: 生成数据
+表etl_task_detail-&gt;表elt_work_def: 生成真正执行数据
+表etl_task_batch_def-&gt;表etl_task_detail: 根据cron执行状态为1的detail（请求）
+表etl_task_detail-&gt;表elt_work_def: 工作（请求）
+表elt_work_def-&gt;redis: 塞入查询值（请求）
+表elt_work_def--&gt;表etl_task_detail: 更新状态（响应）
+Note over 表etl_task_detail,表elt_work_def: 工作者
+定时-&gt;redis: 根据cron查询redis中的值,获取状态（请求）
+redis--&gt;&gt;表etl_task_detail: 更新detail状态
+</code></pre>
+<h1>节点模板</h1>
+<h3><strong>etl_node_def</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">NODE_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">NODE_NAME</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">NODE_TYPE</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">NODE_JSON</td>
+<td style="text-align:left">varchar(5000)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_USER</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 10/02/2020 17:37:37
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for etl_node_def</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`etl_node_def`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`etl_node_def`</span> (
+  <span class="hljs-string">`NODE_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`NODE_NAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`NODE_TYPE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`NODE_JSON`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">5000</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`CREATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`CREATE_USER`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`NODE_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000055</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'etl_node_def节点模板表'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+
+</code></pre>
+<h1>插件</h1>
+<h3>etl_plugin_def</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PLUGIN_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">PLUGIN_NAME</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">PLUGIN_TYPE</td>
+<td style="text-align:left">varchar(10)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>SQL:FTP:SHELL:READER:WRITER:DATAX:PROCEDURE</td>
+</tr>
+<tr>
+<td style="text-align:left">STATUS</td>
+<td style="text-align:left">char(1)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>0失效1生效</td>
+</tr>
+<tr>
+<td style="text-align:left">LOGO</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">PARENT_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">SORT</td>
+<td style="text-align:left">int(2)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 13:58:54
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for etl_plugin_def</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`etl_plugin_def`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`etl_plugin_def`</span> (
+  <span class="hljs-string">`PLUGIN_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`PLUGIN_NAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`PLUGIN_TYPE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">10</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'SQL:FTP:SHELL:READER:WRITER:DATAX:PROCEDURE'</span>,
+  <span class="hljs-string">`STATUS`</span> <span class="hljs-built_in">char</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'0失效1生效'</span>,
+  <span class="hljs-string">`LOGO`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`PARENT_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`SORT`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">2</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`PLUGIN_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1018</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'etl_plugin_def'</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Records of etl_plugin_def</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">BEGIN</span>;
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'2'</span>, <span class="hljs-string">'0'</span>, <span class="hljs-string">'4'</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'2'</span>, <span class="hljs-string">'0'</span>, <span class="hljs-string">'4'</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">3</span>, <span class="hljs-string">'执行SHELL'</span>, <span class="hljs-string">'SHELL'</span>, <span class="hljs-string">'0'</span>, <span class="hljs-string">'SHELL-LOAD'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">6</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">4</span>, <span class="hljs-string">'执行SHELL'</span>, <span class="hljs-string">'SHELL'</span>, <span class="hljs-string">'0'</span>, <span class="hljs-string">'SHELL-LOAD'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">7</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">5</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'2'</span>, <span class="hljs-string">'0'</span>, <span class="hljs-string">'4'</span>, <span class="hljs-number">3</span>, <span class="hljs-number">5</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">6</span>, <span class="hljs-string">'节点检查'</span>, <span class="hljs-string">'CHECK'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'NODE-CHECK'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">8</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1001</span>, <span class="hljs-string">'SHELL执行'</span>, <span class="hljs-string">'SHELL'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'SHELL'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1002</span>, <span class="hljs-string">'SQL执行'</span>, <span class="hljs-string">'SQL'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'SQL'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1003</span>, <span class="hljs-string">'存储过程执行'</span>, <span class="hljs-string">'PROCEDURE'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'FUNC-PROCESS'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1004</span>, <span class="hljs-string">'数据迁移'</span>, <span class="hljs-string">'CHANGE'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'DATA-TRANSFORM'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1006</span>, <span class="hljs-string">'FTP'</span>, <span class="hljs-string">'READER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">1</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1007</span>, <span class="hljs-string">'MYSQL'</span>, <span class="hljs-string">'READER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">2</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1008</span>, <span class="hljs-string">'GP'</span>, <span class="hljs-string">'READER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">3</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1009</span>, <span class="hljs-string">'FTP'</span>, <span class="hljs-string">'WRITER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">1</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1010</span>, <span class="hljs-string">'MYSQL'</span>, <span class="hljs-string">'WRITER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">2</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1011</span>, <span class="hljs-string">'GP'</span>, <span class="hljs-string">'WRITER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">3</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1012</span>, <span class="hljs-string">'TXT'</span>, <span class="hljs-string">'READER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">4</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1013</span>, <span class="hljs-string">'TXT'</span>, <span class="hljs-string">'WRITER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">4</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1014</span>, <span class="hljs-string">'文件检查'</span>, <span class="hljs-string">'CHECK'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'FILE-CHECK'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">9</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1015</span>, <span class="hljs-string">'文件入GP'</span>, <span class="hljs-string">'LOAD'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'GP-LOAD'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1016</span>, <span class="hljs-string">'ORACLE'</span>, <span class="hljs-string">'READER'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-number">1005</span>, <span class="hljs-number">5</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`etl_plugin_def`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1017</span>, <span class="hljs-string">'多任务执行'</span>, <span class="hljs-string">'MUTIF'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'MULTI-TASK'</span>, <span class="hljs-number">0</span>, <span class="hljs-number">11</span>);
+<span class="hljs-keyword">COMMIT</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+
+</code></pre>
+<h1>系统管理表</h1>
+<h3><strong>sys_menu</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">menu_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">menu_name</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>菜单名称</td>
+</tr>
+<tr>
+<td style="text-align:left">menu_url</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>url</td>
+</tr>
+<tr>
+<td style="text-align:left">state</td>
+<td style="text-align:left">varchar(1)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>0禁用1启用</td>
+</tr>
+<tr>
+<td style="text-align:left">sort</td>
+<td style="text-align:left">int(11)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>排序</td>
+</tr>
+<tr>
+<td style="text-align:left">remark</td>
+<td style="text-align:left">varchar(1000)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">staff_id</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">create_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">update_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">class_name</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 10:32:30
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for sys_menu</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`sys_menu`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`sys_menu`</span> (
+  <span class="hljs-string">`menu_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`menu_name`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">' 菜单名称'</span>,
+  <span class="hljs-string">`menu_url`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'url'</span>,
+  <span class="hljs-string">`state`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'0禁用1启用'</span>,
+  <span class="hljs-string">`sort`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'排序'</span>,
+  <span class="hljs-string">`remark`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1000</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`staff_id`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`create_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`update_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`class_name`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`menu_id`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000013</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'菜单表'</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Records of sys_menu</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">BEGIN</span>;
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-string">'角色管理'</span>, <span class="hljs-string">'/home/rolelist'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">1</span>, <span class="hljs-string">'111'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2018-08-27 09:31:34'</span>, <span class="hljs-string">'2019-04-19 14:12:19'</span>, <span class="hljs-string">'rolelist'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>, <span class="hljs-string">'用户管理'</span>, <span class="hljs-string">'/home/userlist'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">2</span>, <span class="hljs-string">''</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2018-08-27 09:31:51'</span>, <span class="hljs-string">'2018-09-17 11:17:11'</span>, <span class="hljs-string">'userlist'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">3</span>, <span class="hljs-string">'菜单管理'</span>, <span class="hljs-string">'/home/menulist'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">3</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2018-11-19 02:23:55'</span>, <span class="hljs-string">'2018-11-19 02:23:55'</span>, <span class="hljs-string">'menulist'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000000</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'0'</span>, <span class="hljs-number">1</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-01-23 16:29:11'</span>, <span class="hljs-string">'2019-01-23 16:29:16'</span>, <span class="hljs-string">'1'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000001</span>, <span class="hljs-string">'流程配置'</span>, <span class="hljs-string">'/home/etl'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">4</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-01-24 10:46:15'</span>, <span class="hljs-string">'2019-01-30 10:30:59'</span>, <span class="hljs-string">'etl'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000002</span>, <span class="hljs-string">'任务管理'</span>, <span class="hljs-string">'/home/tasklist'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">5</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-01-21 13:26:27'</span>, <span class="hljs-string">'2019-01-30 10:35:08'</span>, <span class="hljs-string">'tasklist'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000003</span>, <span class="hljs-string">'插件管理'</span>, <span class="hljs-string">'/home/pluginlist'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">6</span>, <span class="hljs-string">'plugin'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-01-30 10:34:38'</span>, <span class="hljs-string">'2019-01-30 10:35:51'</span>, <span class="hljs-string">'plugin'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000005</span>, <span class="hljs-string">'资源管理'</span>, <span class="hljs-string">'/home/dataSource'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">7</span>, <span class="hljs-string">'dataSource'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-02-12 11:19:13'</span>, <span class="hljs-string">'2019-02-14 09:33:15'</span>, <span class="hljs-string">'dataSource'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000006</span>, <span class="hljs-string">'DATAX配置'</span>, <span class="hljs-string">'/home/dataxConfig'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">8</span>, <span class="hljs-string">'dataxConfig'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-02-14 13:51:27'</span>, <span class="hljs-string">'2019-02-14 13:51:27'</span>, <span class="hljs-string">'dataxConfig'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000009</span>, <span class="hljs-string">'参数配置'</span>, <span class="hljs-string">'/home/configParam'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">9</span>, <span class="hljs-string">'configParam'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-03-05 15:36:38'</span>, <span class="hljs-string">'2019-03-05 15:36:38'</span>, <span class="hljs-string">'configParam'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000010</span>, <span class="hljs-string">'缓存配置'</span>, <span class="hljs-string">'/home/configProperty'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">10</span>, <span class="hljs-string">'configProperty'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-04-10 09:46:00'</span>, <span class="hljs-string">'2019-04-10 09:46:02'</span>, <span class="hljs-string">'configProperty'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_menu`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000012</span>, <span class="hljs-string">'模板管理'</span>, <span class="hljs-string">'/home/templateTasklist'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-number">2</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2020-01-19 15:05:26'</span>, <span class="hljs-string">'2020-01-19 15:05:26'</span>, <span class="hljs-string">'moduleManage'</span>);
+<span class="hljs-keyword">COMMIT</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+</code></pre>
+<h3><strong>sys_role</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">role_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">role_name</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">role_code</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">state</td>
+<td style="text-align:left">varchar(1)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>0禁用1启用</td>
+</tr>
+<tr>
+<td style="text-align:left">remark</td>
+<td style="text-align:left">varchar(1000)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">staff_id</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">create_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">update_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 10:39:37
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for sys_role</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`sys_role`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`sys_role`</span> (
+  <span class="hljs-string">`role_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`role_name`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`role_code`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`state`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'0禁用1启用'</span>,
+  <span class="hljs-string">`remark`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1000</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`staff_id`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`create_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`update_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`role_id`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000021</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'这是角色表'</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Records of sys_role</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">BEGIN</span>;
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_role`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-string">'系统管理员'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'系统管理员'</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2018-08-10 14:46:03'</span>, <span class="hljs-string">'2018-08-28 10:17:24'</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_role`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">2</span>, <span class="hljs-string">'管理员'</span>, <span class="hljs-string">'user'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-string">'管理员'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_role`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1000000</span>, <span class="hljs-string">'测试'</span>, <span class="hljs-string">'test'</span>, <span class="hljs-string">'0'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'2019-02-25 14:25:54'</span>, <span class="hljs-string">'2019-02-25 15:09:42'</span>);
+
+<span class="hljs-keyword">COMMIT</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+</code></pre>
+<h3>sys_user_role</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">user_role_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">user_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">role_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">staff_id</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">create_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 10:45:03
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for sys_user_role</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`sys_user_role`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`sys_user_role`</span> (
+  <span class="hljs-string">`user_role_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`user_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`role_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`staff_id`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`create_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`user_role_id`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000015</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'sys_user_role'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+
+</code></pre>
+<h3>sys_user</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">user_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">login_code</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>登录账号</td>
+</tr>
+<tr>
+<td style="text-align:left">password</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>登录密码</td>
+</tr>
+<tr>
+<td style="text-align:left">user_name</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>姓名</td>
+</tr>
+<tr>
+<td style="text-align:left">phone</td>
+<td style="text-align:left">varchar(11)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>联系电话</td>
+</tr>
+<tr>
+<td style="text-align:left">state</td>
+<td style="text-align:left">varchar(1)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>0禁用1启用</td>
+</tr>
+<tr>
+<td style="text-align:left">sex</td>
+<td style="text-align:left">varchar(5)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>性别</td>
+</tr>
+<tr>
+<td style="text-align:left">email</td>
+<td style="text-align:left">varchar(50)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>邮箱</td>
+</tr>
+<tr>
+<td style="text-align:left">staff_id</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">create_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">update_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">login_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>最后登录时间</td>
+</tr>
+<tr>
+<td style="text-align:left">ip</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>最近访问ip</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 10:44:55
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for sys_user</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`sys_user`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`sys_user`</span> (
+  <span class="hljs-string">`user_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`login_code`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'登录账号'</span>,
+  <span class="hljs-string">`password`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'登录密码'</span>,
+  <span class="hljs-string">`user_name`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'姓名'</span>,
+  <span class="hljs-string">`phone`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'联系电话'</span>,
+  <span class="hljs-string">`state`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'0禁用1启用'</span>,
+  <span class="hljs-string">`sex`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">5</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'性别'</span>,
+  <span class="hljs-string">`email`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'邮箱'</span>,
+  <span class="hljs-string">`staff_id`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`create_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`update_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`login_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'最后登录时间'</span>,
+  <span class="hljs-string">`ip`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'最近访问ip'</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`user_id`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000013</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'sys_user表'</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Records of sys_user</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">BEGIN</span>;
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-string">`sys_user`</span> <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1</span>, <span class="hljs-string">'admin'</span>, <span class="hljs-string">'E10ADC3949BA59ABBE56E057F20F883E'</span>, <span class="hljs-string">'管理员'</span>, <span class="hljs-string">'13822226666'</span>, <span class="hljs-string">'1'</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-string">'2019-04-04 14:34:05'</span>, <span class="hljs-string">'2020-02-12 10:30:58'</span>, <span class="hljs-literal">NULL</span>);
+
+<span class="hljs-keyword">COMMIT</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+
+</code></pre>
+<h3>sys_role_menu</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">role_menu_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">menu_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">role_id</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">staff_id</td>
+<td style="text-align:left">varchar(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">create_time</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 10:44:44
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for sys_role_menu</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`sys_role_menu`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`sys_role_menu`</span> (
+  <span class="hljs-string">`role_menu_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`menu_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`role_id`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`staff_id`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`create_time`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`role_menu_id`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000313</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'sys_role_menu'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+
+
+</code></pre>
+<h3><strong>config_property</strong></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">PROPERTY_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">SYS_ID</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>系统IDSYS-系统管理MONITOR-监控</td>
+</tr>
+<tr>
+<td style="text-align:left">PROPERTY_KEY</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>参数key</td>
+</tr>
+<tr>
+<td style="text-align:left">PROPERTY_VALUE</td>
+<td style="text-align:left">varchar(2000)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>参数值</td>
+</tr>
+<tr>
+<td style="text-align:left">PROPERTY_DESC</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>配置说明</td>
+</tr>
+<tr>
+<td style="text-align:left">STATE</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_USER_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建人</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td style="text-align:left">UPDATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>更新时间</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 13:48:34
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for config_property</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`config_property`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`config_property`</span> (
+  <span class="hljs-string">`PROPERTY_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`SYS_ID`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'系统ID  SYS-系统管理  MONITOR-监控'</span>,
+  <span class="hljs-string">`PROPERTY_KEY`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'参数key\r\n            '</span>,
+  <span class="hljs-string">`PROPERTY_VALUE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">2000</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'参数值'</span>,
+  <span class="hljs-string">`PROPERTY_DESC`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'配置说明\r\n            '</span>,
+  <span class="hljs-string">`STATE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`CREATE_USER_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建人'</span>,
+  <span class="hljs-string">`CREATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建时间'</span>,
+  <span class="hljs-string">`UPDATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'更新时间'</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`PROPERTY_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">404</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'配置常用参数'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+</code></pre>
+<p>config_parameter</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">PARAMETER_NAME</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>参数名</td>
+</tr>
+<tr>
+<td style="text-align:left">PARAMETER_VALUE</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>参数值</td>
+</tr>
+<tr>
+<td style="text-align:left">PARAMETER_TYPE</td>
+<td style="text-align:left">varchar(2)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">PARAMETER_CONF</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>参数其他的配置,例如数据源ID</td>
+</tr>
+<tr>
+<td style="text-align:left">STATE</td>
+<td style="text-align:left">varchar(2)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">REMARK</td>
+<td style="text-align:left">varchar(500)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 13:53:26
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for config_parameter</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`config_parameter`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`config_parameter`</span> (
+  <span class="hljs-string">`ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`PARAMETER_NAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'参数名'</span>,
+  <span class="hljs-string">`PARAMETER_VALUE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'参数值'</span>,
+  <span class="hljs-string">`PARAMETER_TYPE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">2</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`PARAMETER_CONF`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'参数其他的配置,例如数据源ID'</span>,
+  <span class="hljs-string">`STATE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">2</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`REMARK`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">500</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">24</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'config_parameter'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+
+</code></pre>
+<h3>config_code</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CONFIG_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">SYS_ID</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>系统IDSYS-系统管理 MONITOR-监控</td>
+</tr>
+<tr>
+<td style="text-align:left">TYPE_CODE</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>参数key</td>
+</tr>
+<tr>
+<td style="text-align:left">PARAM_CODE</td>
+<td style="text-align:left">varchar(255)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>参数值</td>
+</tr>
+<tr>
+<td style="text-align:left">COLUMN_VALUE</td>
+<td style="text-align:left">varchar(1024)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>CODE值</td>
+</tr>
+<tr>
+<td style="text-align:left">COLUMN_DESC</td>
+<td style="text-align:left">varchar(1024)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>CODE描述</td>
+</tr>
+<tr>
+<td style="text-align:left">SEQ</td>
+<td style="text-align:left">int(11)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>顺序</td>
+</tr>
+<tr>
+<td style="text-align:left">STATE</td>
+<td style="text-align:left">int(11)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>STATE 0-禁用 1启用</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_USER_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建人</td>
+</tr>
+<tr>
+<td style="text-align:left">CREATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>创建时间</td>
+</tr>
+<tr>
+<td style="text-align:left">UPDATE_TIME</td>
+<td style="text-align:left">datetime</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>更新时间</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 13:53:15
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for config_code</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`config_code`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`config_code`</span> (
+  <span class="hljs-string">`CONFIG_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`SYS_ID`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'系统ID  SYS-系统管理  MONITOR-监控'</span>,
+  <span class="hljs-string">`TYPE_CODE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'参数key\r\n            '</span>,
+  <span class="hljs-string">`PARAM_CODE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'参数值'</span>,
+  <span class="hljs-string">`COLUMN_VALUE`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1024</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'CODE值\r\n            '</span>,
+  <span class="hljs-string">`COLUMN_DESC`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">1024</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'CODE描述'</span>,
+  <span class="hljs-string">`SEQ`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'顺序'</span>,
+  <span class="hljs-string">`STATE`</span> <span class="hljs-built_in">int</span>(<span class="hljs-number">11</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'STATE 0-禁用  1启用'</span>,
+  <span class="hljs-string">`CREATE_USER_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建人'</span>,
+  <span class="hljs-string">`CREATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'创建时间'</span>,
+  <span class="hljs-string">`UPDATE_TIME`</span> datetime <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'更新时间'</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`CONFIG_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'config_code'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+
+</code></pre>
+<h3>et<s>l_check_def</s></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">字段</th>
+<th style="text-align:left">类型</th>
+<th style="text-align:left">允许空</th>
+<th>默认</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">CHECK_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">NO</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">FILE_NAME</td>
+<td style="text-align:left">varchar(200)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">STATE</td>
+<td style="text-align:left">char(2)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>无</td>
+</tr>
+<tr>
+<td style="text-align:left">FILE_COUNT</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>实际数</td>
+</tr>
+<tr>
+<td style="text-align:left">CHECK_COUNT</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>目标数</td>
+</tr>
+<tr>
+<td style="text-align:left">TASK_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>任务ID</td>
+</tr>
+<tr>
+<td style="text-align:left">LOG_ID</td>
+<td style="text-align:left">bigint(20)</td>
+<td style="text-align:left">YES</td>
+<td>NULL</td>
+<td>LOGID</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-sql"><span class="hljs-comment">/*
+ Navicat Premium Data Transfer
+
+ Source Server         : 192.168.100.53
+ Source Server Type    : MySQL
+ Source Server Version : 50634
+ Source Host           : 192.168.100.53:3306
+ Source Schema         : dvpdpdb01
+
+ Target Server Type    : MySQL
+ Target Server Version : 50634
+ File Encoding         : 65001
+
+ Date: 12/02/2020 14:01:23
+*/</span>
+
+<span class="hljs-keyword">SET</span> <span class="hljs-keyword">NAMES</span> utf8mb4;
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">0</span>;
+
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-comment">-- Table structure for etl_check_def</span>
+<span class="hljs-comment">-- ----------------------------</span>
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">`etl_check_def`</span>;
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-string">`etl_check_def`</span> (
+  <span class="hljs-string">`CHECK_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> AUTO_INCREMENT,
+  <span class="hljs-string">`FILE_NAME`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">200</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`STATE`</span> <span class="hljs-built_in">char</span>(<span class="hljs-number">2</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span>,
+  <span class="hljs-string">`FILE_COUNT`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'实际数'</span>,
+  <span class="hljs-string">`CHECK_COUNT`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'目标数'</span>,
+  <span class="hljs-string">`TASK_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'任务ID'</span>,
+  <span class="hljs-string">`LOG_ID`</span> <span class="hljs-built_in">bigint</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">COMMENT</span> <span class="hljs-string">'LOGID'</span>,
+  PRIMARY <span class="hljs-keyword">KEY</span> (<span class="hljs-string">`CHECK_ID`</span>)
+) <span class="hljs-keyword">ENGINE</span>=<span class="hljs-keyword">InnoDB</span> AUTO_INCREMENT=<span class="hljs-number">1000037</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">CHARSET</span>=utf8 <span class="hljs-keyword">COMMENT</span>=<span class="hljs-string">'etl_check_def'</span>;
+
+<span class="hljs-keyword">SET</span> FOREIGN_KEY_CHECKS = <span class="hljs-number">1</span>;
+</code></pre>
+</div></section><footer class="footer-container"><div class="footer-body"><img src="/img/dubbo_gray.png"/><div class="cols-container"><div class="col col-12"><h3>免责声明</h3><p>免责声明的具体内容</p></div><div class="col col-6"><dl><dt>文档</dt><dd><a href="/zh-cn/docs/demo1.html" target="_self">概览</a></dd><dd><a href="/zh-cn/docs/demo2.html" target="_self">快速开始</a></dd><dd><a href="/zh-cn/docs/dir/demo3.html" target="_self">开发者指南</a></dd></dl></div><div class="col col-6"><dl><dt>资源</dt><dd><a href="/zh-cn/blog/index.html" target="_self">博客</a></dd><dd><a href="/zh-cn/community/index.html" target="_self">社区</a></dd></dl></div></div><div class="copyright"><span>Copyright © 2018 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</span></div></div></footer></div></div>
+	<script src="https://f.alicdn.com/react/15.4.1/react-with-addons.min.js"></script>
+	<script src="https://f.alicdn.com/react/15.4.1/react-dom.min.js"></script>
+	<script>
+		window.rootPath = '';
+  </script>
+	<script src="/build/documentation.js"></script>
+</body>
+</html>

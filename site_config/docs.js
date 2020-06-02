@@ -34,19 +34,19 @@ export default {
         children: [
           {
             title: '示例1',
-            link: '/zh-cn/docs/新版etl功能简介.md',
+            link: '/zh-cn/docs/新版etl功能简介.html',
           },
           {
             title: '示例2',
             link: '/zh-cn/docs/demo2.html',
           },
           {
-            title: '示例2',
-            link: '/zh-cn/docs/未命名.md',
+            title: '示例未命名',
+            link: '/zh-cn/docs/未命名.html',
           },
           {
             title: '示例3',
-            link: '/docs/zh-cn/img/自助报表.png',
+            link: '/zh-cn/docs/img/自助报表.html',
           },
           {
             title: '目录',
